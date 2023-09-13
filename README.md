@@ -11,9 +11,7 @@ The Wallet API is a Node.js and Express-based RESTful API that allows users to c
   - [Configuration](#configuration)
 - [API Endpoints](#api-endpoints)
 - [Authentication](#authentication)
-- [Error Handling](#error-handling)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
@@ -100,11 +98,6 @@ Example:
 ```bash
 curl -X GET http://localhost:3000/api/wallet/details -H "Authorization: YOUR_JWT_TOKEN_HERE"
 ```
-
-## Error Handling
-
-- The API provides detailed error messages for common issues, such as invalid requests, insufficient funds, and authentication failures.
-- For production use, consider implementing more robust error handling and logging.
 
 ## Contributing
 
