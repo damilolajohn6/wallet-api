@@ -1,11 +1,18 @@
-const mongoose = require('mongoose');
+// models/User.js
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  emailVerified: { type: Boolean, default: false },
-  verifiedAt: { type: Date, default: null },
+  // Additional KYC fields
+  full_name: { type: String, required: true },
+  date_of_birth: { type: Date, required: true },
+  address: { type: String, required: true },
+  phone_number: { type: String, required: true },
+  // Verification status
+  email_verified: { type: Boolean, default: false },
+  verified_at: { type: Date },
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);
