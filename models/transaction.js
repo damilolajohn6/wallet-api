@@ -12,6 +12,14 @@ const transactionSchema = new mongoose.Schema({
     required: true,
   },
   amount: { type: Number, required: true },
+  status: {
+    type: String,
+    enum: ["success", "pending", "failed"],
+    default: "pending",
+  },
+  type: { type: String, enum: ["debit", "credit"], required: true },
+  charges: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("Transaction", transactionSchema);
