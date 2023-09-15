@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { APIError } = require("../utils/errorHandler");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -6,20 +7,33 @@ module.exports = (req, res, next) => {
   const token = req.header("Authorization");
 
   if (!token) {
-    return res.status(401).json({ error: "Authorization header missing" });
+    const error = new APIError(
+      401,
+      "Unauthorized",
+      "Authorization header missing"
+    );
+    return next(error);
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const [tokenType, tokenValue] = token.split(" ");
 
-    // Verify token expiry
+    if (tokenType !== "Bearer") {
+      const error = new APIError(401, "Unauthorized", "Invalid token type");
+      return next(error);
+    }
+
+    const decoded = jwt.verify(tokenValue, JWT_SECRET);
+
     if (Date.now() >= decoded.exp * 1000) {
-      return res.status(401).json({ error: "Token has expired" });
+      const error = new APIError(401, "Unauthorized", "Token has expired");
+      return next(error);
     }
 
     req.userId = decoded.userId;
     next();
   } catch (error) {
-    return res.status(401).json({ error: "Invalid token" });
+    const customError = new APIError(401, "Unauthorized", "Invalid token");
+    return next(customError);
   }
 };
