@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
-// Load environment variables from .env file
 dotenv.config();
 
 const app = express();
