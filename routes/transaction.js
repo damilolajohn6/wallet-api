@@ -3,6 +3,7 @@ const router = express.Router();
 const Wallet = require("../models/wallet");
 const Transaction = require("../models/transaction");
 const authMiddleware = require("../middlewares/auth");
+const { transferFunds, getTransactionHistory } = require('../controllers/transactionController');
 
 // Transfer funds between two wallets
 router.post("/transfer", authMiddleware, async (req, res) => {
@@ -39,20 +40,25 @@ router.post("/transfer", authMiddleware, async (req, res) => {
   }
 });
 
+
+router.post("/transfer", transferFunds);
+router.get("/history", getTransactionHistory);
+
+
 // Get list of transactions for the authenticated user
-router.get("/history", authMiddleware, async (req, res) => {
-  try {
-    const senderWallet = await Wallet.findOne({ userId: req.userId });
-    const transactions = await Transaction.find({
-      $or: [
-        { senderWalletId: senderWallet._id },
-        { receiverWalletId: senderWallet._id },
-      ],
-    });
-    res.json(transactions);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// router.get("/history", authMiddleware, async (req, res) => {
+//   try {
+//     const senderWallet = await Wallet.findOne({ userId: req.userId });
+//     const transactions = await Transaction.find({
+//       $or: [
+//         { senderWalletId: senderWallet._id },
+//         { receiverWalletId: senderWallet._id },
+//       ],
+//     });
+//     res.json(transactions);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 module.exports = router;
