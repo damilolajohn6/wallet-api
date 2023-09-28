@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const transactionSchema = new mongoose.Schema({
   senderWalletId: {
     type: mongoose.Schema.Types.ObjectId,
