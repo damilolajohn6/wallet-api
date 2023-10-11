@@ -9,7 +9,15 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // User registration
 router.post("/register", async (req, res) => {
   try {
-    const { username, password, email, full_name, date_of_birth, address, phone_number } = req.body;
+    const {
+      username,
+      password,
+      email,
+      full_name,
+      date_of_birth,
+      address,
+      phone_number,
+    } = req.body;
     const user = new User({
       username,
       password,
@@ -34,7 +42,7 @@ router.post("/login", async (req, res) => {
     if (!user || user.password !== password) {
       throw new Error("Invalid login credentials");
     }
-    const token = jwt.sign({ userId: user._id }, "JWT_SECRET");
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET); // Use JWT_SECRET variable
     res.json({ token });
   } catch (error) {
     res.status(401).json({ error: error.message });
