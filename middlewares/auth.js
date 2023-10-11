@@ -4,7 +4,7 @@ const { APIError } = require("../utils/errorHandler");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = (req, res, next) => {
-  const token = req.header("Authorization");
+const token = jwt.sign({ userId: user._id }, JWT_SECRET);
 
   if (!token) {
     const error = new APIError(
